@@ -39,6 +39,7 @@ module.exports = {
             let obj = {}
             let arr = []
             const ZENDESK_AGENT_BASE_URL = config('ZENDESK_AGENT_BASE_URL')
+            const BASE_URL = config('BASE_URL')
 
             for (ticket of tickets) {
                 const rating = ticket.satisfaction_rating ? ticket.satisfaction_rating.score : 'Not rated'
@@ -46,7 +47,6 @@ module.exports = {
 
                 arr.push({
                     color: ticketColor,
-                    pretext: 'Latest tickets from Zendesk',
                     title: ticket.subject,
                     title_link: `${ZENDESK_AGENT_BASE_URL}tickets/${ticket.id}`,
                     text: ticket.message,
@@ -61,7 +61,9 @@ module.exports = {
                             value: ticket.tags ? ticket.tags.join(', ') : 'Untagged',
                             short: true
                         }
-                    ]
+                    ],
+                    footer: 'Kudobuzz',
+                    footer_icon: `${BASE_URL}public/logo.png`
                 })
             }
 
