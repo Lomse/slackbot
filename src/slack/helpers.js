@@ -19,21 +19,27 @@ module.exports = {
 	formatResponse: tickets => {
 		return new Promise(resolve => {
 			let obj = {}
-            let arr = []
+			let arr = []
+			const ZENDESK_AGENT_BASE_URL = config('ZENDESK_AGENT_BASE_URL')
 
 			for (ticket of tickets) {
-                console.log('ticket: ', ticket);
-                const rating = ticket.satisfaction_rating ? ticket.satisfaction_rating.score : 'Not rated'
+				const rating = ticket.satisfaction_rating ? ticket.satisfaction_rating.score : 'Not rated'
+				const ticketColor = getTicketColor(ticket.status)
 				arr.push({
-					color: '#36a64f',
+					color: ticketColor,
 					pretext: 'Latest tickets from Zendesk',
 					title: ticket.subject,
-					title_link: ticket.url,
+					title_link: `${ZENDESK_AGENT_BASE_URL}tickets/${ticket.id}`,
 					text: ticket.message,
 					fields: [
 						{
 							title: 'Status',
 							value: ticket.status,
+							short: true
+						},
+						{
+							title: 'Tags',
+							value: ticket.tags.join(', '),
 							short: true
 						},
 						{
@@ -43,10 +49,29 @@ module.exports = {
 						}
 					]
 				})
-            } 
+			}
 
-            const response = Object.assign({}, obj, {attachments: arr})
+			const response = Object.assign({}, obj, { attachments: arr })
 			resolve(response)
 		})
+	}
+}
+
+const getTicketColor = status => {
+	switch (status) {
+		case 'new':
+			return 'purple'
+		case 'open':
+			return 'blue'
+		case 'pending':
+			return 'red'
+		case 'hold':
+			return 'yellow'
+		case 'closed':
+			return 'grey'
+		case 'solved':
+			return 'green'
+		default:
+			return '#00e5ff'
 	}
 }

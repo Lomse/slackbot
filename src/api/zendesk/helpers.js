@@ -29,12 +29,12 @@ module.exports = {
             let result = []
             for (ticket of tickets) {
                 result.push({
+                    id: ticket.id,
                     subject: ticket.subject,
                     created_at: ticket.created_at,
                     status: ticket.status,
                     tags: ticket.tags,
                     satisfaction_rating: ticket.satisfaction_rating,
-                    url: ticket.url,
                     message: shortenMessage(ticket.description)
                 })
             }
@@ -52,7 +52,7 @@ const shortenMessage = message => {
     const wordLimit = 50
 
     if (numWords > wordLimit) {
-        const newMessage = messageArr.splice(0, wordLimit).join(' ') + '...'
+        const newMessage = messageArr.splice(0, wordLimit).join(' ')
         response = newMessage
     } else {
         response = message
