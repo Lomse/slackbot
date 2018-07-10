@@ -34,13 +34,14 @@ module.exports = {
         return request.get(endpoint)
     },
 
-    formatResponse: tickets => {
+    formatResponse: result => {
         return new Promise(resolve => {
             let obj = {}
             let arr = []
             const ZENDESK_AGENT_BASE_URL = config('ZENDESK_AGENT_BASE_URL')
             const BASE_URL = config('BASE_URL')
-
+            const { tickets, count } = result
+            // console.log('tickets: ', result)
             for (ticket of tickets) {
                 const rating = ticket.satisfaction_rating ? ticket.satisfaction_rating.score : 'Not rated'
                 const ticketColor = getTicketColor(ticket.status)
@@ -66,6 +67,12 @@ module.exports = {
                     footer_icon: `${BASE_URL}public/logo.png`
                 })
             }
+
+            arr.push({
+                color: '#000000',
+                title: `${tickets.length} tickets of ${count} tickets`,
+                title_link: `${ZENDESK_AGENT_BASE_URL}dashboard`
+            })
 
             const response = Object.assign({}, obj, { attachments: arr })
             resolve(response)

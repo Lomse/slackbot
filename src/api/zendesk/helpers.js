@@ -24,7 +24,8 @@ module.exports = {
         return request(options)
     },
 
-    transformTickets: tickets => {
+    transformTickets: (tickets, count) => {
+
         return new Promise(resolve => {
             let result = []
             for (ticket of tickets) {
@@ -39,11 +40,14 @@ module.exports = {
                 })
             }
 
-            resolve(result)
+            resolve({
+                count: count,
+                tickets: result
+            })
         })
     },
     searchTickets: status => {
-        const limit = 1
+
         const ZENDESK_API_BASE_URL = config('ZENDESK_API_BASE_URL')
         const ZENDESK_ACCESS_TOKEN = config('ZENDESK_ACCESS_TOKEN')
 

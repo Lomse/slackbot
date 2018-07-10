@@ -6,7 +6,8 @@ router.get('/tickets/list', async (req, res) => {
 	try {
         const { status } = req.query
         const response = await getTickets(status)
-        const transformedTickets = await transformTickets(response.tickets)
+        const {count, tickets} = response
+        const transformedTickets = await transformTickets(tickets, count)
 
 		res.status(httpStatus.OK).json(transformedTickets)
 	} catch (err) {
@@ -18,7 +19,8 @@ router.get('/tickets/search/:status', async (req, res)=> {
     try {
         const { status } = req.params
         const response = await searchTickets(status)
-        const transformedTickets = await transformTickets(response.results)
+        const { count, results } = response
+        const transformedTickets = await transformTickets(results, count)
 
 		res.status(httpStatus.OK).json(transformedTickets)
 	} catch (err) {
