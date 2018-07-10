@@ -58,7 +58,7 @@ module.exports = {
                         },
                         {
                             title: 'Tags',
-                            value: ticket.tags ? ticket.tags.join(', ') : 'Untagged',
+                            value: ticket.tags.length ? ticket.tags.join(', ') : 'Untagged',
                             short: true
                         }
                     ],
