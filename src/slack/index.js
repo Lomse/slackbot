@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     try {
         const response = !text
             ? JSON.parse(await getLatestTickets())
-            : await getTicketsByStatus(text)
+            : JSON.parse(await getTicketsByStatus(text))
 
         const formattedResponse = await formatResponse(response)
         res.status(httpStatus.OK).send(formattedResponse)
