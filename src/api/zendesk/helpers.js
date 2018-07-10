@@ -13,7 +13,7 @@ module.exports = {
         const options = {
             url: `${ZENDESK_API_BASE_URL}tickets.json`,
             qs: {
-                per_page: 2
+                per_page: 5
             },
             headers: {
                 Authorization: `Bearer ${ZENDESK_ACCESS_TOKEN}`
