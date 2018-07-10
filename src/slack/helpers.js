@@ -5,17 +5,17 @@ const config = require('../configs')
 const getTicketColor = status => {
     switch (status) {
         case 'new':
-            return 'purple'
+            return '#681FA5'
         case 'open':
-            return 'blue'
+            return '#0026F4'
         case 'pending':
-            return 'red'
+            return '#871C19'
         case 'hold':
-            return 'yellow'
+            return '#EED147'
         case 'closed':
-            return 'grey'
+            return '#979797'
         case 'solved':
-            return 'green'
+            return '#59A93D'
         default:
             return '#00e5ff'
     }
@@ -43,6 +43,7 @@ module.exports = {
             for (ticket of tickets) {
                 const rating = ticket.satisfaction_rating ? ticket.satisfaction_rating.score : 'Not rated'
                 const ticketColor = getTicketColor(ticket.status)
+
                 arr.push({
                     color: ticketColor,
                     pretext: 'Latest tickets from Zendesk',
