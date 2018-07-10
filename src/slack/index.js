@@ -11,8 +11,6 @@ router.post('/', async (req, res) => {
             ? JSON.parse(await getLatestTickets())
             : await getTicketsByStatus(text)
 
-            console.log('response: ', response);
-
         const formattedResponse = await formatResponse(response)
         res.status(httpStatus.OK).send(formattedResponse)
     } catch (err) {
