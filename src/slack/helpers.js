@@ -41,11 +41,6 @@ module.exports = {
 							title: 'Tags',
 							value: ticket.tags.join(', '),
 							short: true
-						},
-						{
-							title: 'Rating',
-							value: rating,
-							short: true
 						}
 					]
 				})
