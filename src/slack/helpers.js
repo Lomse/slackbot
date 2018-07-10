@@ -1,25 +1,37 @@
 const request = require('request-promise')
 const config = require('../configs')
 
+
+const getTicketColor = status => {
+    switch (status) {
+        case 'new':
+            return 'purple'
+        case 'open':
+            return 'blue'
+        case 'pending':
+            return 'red'
+        case 'hold':
+            return 'yellow'
+        case 'closed':
+            return 'grey'
+        case 'solved':
+            return 'green'
+        default:
+            return '#00e5ff'
+    }
+}
+
 module.exports = {
-    getLatestTickets: text => {
+    getLatestTickets: _ => {
         const BASE_URL = config('BASE_URL')
-        const status = text ? text : 'open'
-
-        const options = {
-            url: `${BASE_URL}zendesk/tickets/list`,
-            qs: {
-                query: `status=${status}`
-            }
-        }
-
-        return request(options)
+        const endpoint = `${BASE_URL}zendesk/tickets/list`
+        return request.get(endpoint)
     },
 
     getTicketsByStatus: status => {
-        return new Promise((resolve, reject)=> {
-            resolve('hola')
-        })
+        const BASE_URL = config('BASE_URL')
+        const endpoint = `${BASE_URL}zendesk/tickets/search/${status}`
+        return request.get(endpoint)
     },
 
     formatResponse: tickets => {
@@ -55,24 +67,5 @@ module.exports = {
             const response = Object.assign({}, obj, { attachments: arr })
             resolve(response)
         })
-    }
-}
-
-const getTicketColor = status => {
-    switch (status) {
-        case 'new':
-            return 'purple'
-        case 'open':
-            return 'blue'
-        case 'pending':
-            return 'red'
-        case 'hold':
-            return 'yellow'
-        case 'closed':
-            return 'grey'
-        case 'solved':
-            return 'green'
-        default:
-            return '#00e5ff'
     }
 }

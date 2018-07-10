@@ -1,14 +1,17 @@
 const router = require('express').Router()
 const httpStatus = require('http-status')
-const { getTickets, formatResponse } = require('./helpers')
+const { getLatestTickets, getTicketsByStatus, formatResponse } = require('./helpers')
 
 router.post('/', async (req, res) => {
+
     const { text } = req.body
 
     try {
         const response = !text
-            ? JSON.parse(await getLatestTickets(text))
-            : JSON.parse(await getTicketsByStatus(text))
+            ? JSON.parse(await getLatestTickets())
+            : await getTicketsByStatus(text)
+
+            console.log('response: ', response);
 
         const formattedResponse = await formatResponse(response)
         res.status(httpStatus.OK).send(formattedResponse)
