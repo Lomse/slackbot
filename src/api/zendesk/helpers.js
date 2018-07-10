@@ -49,9 +49,10 @@ const shortenMessage = message => {
     let response
     const messageArr = message.split(' ')
     const numWords = messageArr.length
+    const wordLimit = 50
 
-    if (numWords > 20) {
-        const newMessage = messageArr.splice(0, 20).join(' ') + '...'
+    if (numWords > wordLimit) {
+        const newMessage = messageArr.splice(0, wordLimit).join(' ') + '...'
         response = newMessage
     } else {
         response = message
