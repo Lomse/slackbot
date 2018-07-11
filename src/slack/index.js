@@ -1,10 +1,18 @@
 const router = require('express').Router()
 const httpStatus = require('http-status')
-const { getLatestTickets, getTicketsByStatus, formatResponse } = require('./helpers')
+const { getLatestTickets, getTicketsByStatus, formatResponse, validateText } = require('./helpers')
 
 router.post('/', async (req, res) => {
 
     const { text } = req.body
+
+    if (!validateText(text)) {
+        return res.status(httpStatus.BAD_REQUEST).send({
+            attachments: {
+                text: 'Use `/list-tickets` with `new`, `opened`, `pending`, `solved`'
+            }
+        })
+    }
 
     try {
         const response = !text
