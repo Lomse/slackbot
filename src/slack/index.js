@@ -2,18 +2,18 @@ const router = require('express').Router()
 const httpStatus = require('http-status')
 const { getLatestTickets, getTicketsByStatus, formatResponse, validateText } = require('./helpers')
 
-router.post('/', async (req, res) => {
+router.post('/list/tickets', async (req, res) => {
 
     const { text } = req.body
 
     if (!validateText(text)) {
         return res.status(httpStatus.OK).send({
-            text: 'Your are doing it wrong :unamused: Use `/list-tickets` with `new`, `opened`, `pending`, `solved` '
+            text: 'Your are doing it wrong :unamused: Use `/list-tickets` with `recent`, `new`, `opened`, `pending`, `solved` '
         })
     }
 
     try {
-        const response = !text
+        const response = text == 'recent'
             ? JSON.parse(await getLatestTickets())
             : JSON.parse(await getTicketsByStatus(text))
 
