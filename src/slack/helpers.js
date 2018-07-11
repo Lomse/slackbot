@@ -41,7 +41,7 @@ module.exports = {
             const ZENDESK_AGENT_BASE_URL = config('ZENDESK_AGENT_BASE_URL')
             const BASE_URL = config('BASE_URL')
             const { tickets, count } = result
-            // console.log('tickets: ', result)
+
             for (ticket of tickets) {
                 const rating = ticket.satisfaction_rating ? ticket.satisfaction_rating.score : 'Not rated'
                 const ticketColor = getTicketColor(ticket.status)
@@ -50,6 +50,7 @@ module.exports = {
                     color: ticketColor,
                     title: ticket.subject,
                     title_link: `${ZENDESK_AGENT_BASE_URL}tickets/${ticket.id}`,
+                    pretext: `Ticket opened on ${ticket.created_at}`,
                     text: ticket.message,
                     fields: [
                         {

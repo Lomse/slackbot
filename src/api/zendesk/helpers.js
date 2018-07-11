@@ -1,4 +1,5 @@
 const request = require('request-promise')
+const moment = require('moment')
 const config = require('../../configs')
 
 module.exports = {
@@ -6,14 +7,14 @@ module.exports = {
 	 * Search Tickets
 	 */
     getTickets: status => {
-        const limit = 1
+        const limit = 5
         const ZENDESK_API_BASE_URL = config('ZENDESK_API_BASE_URL')
         const ZENDESK_ACCESS_TOKEN = config('ZENDESK_ACCESS_TOKEN')
 
         const options = {
             url: `${ZENDESK_API_BASE_URL}tickets.json`,
             qs: {
-                per_page: 5
+                per_page: limit
             },
             headers: {
                 Authorization: `Bearer ${ZENDESK_ACCESS_TOKEN}`
@@ -36,7 +37,8 @@ module.exports = {
                     status: ticket.status,
                     tags: ticket.tags,
                     satisfaction_rating: ticket.satisfaction_rating,
-                    message: shortenMessage(ticket.description)
+                    message: shortenMessage(ticket.description),
+                    created_at: moment(ticket.created_at).format('MMMM Do YYYY')
                 })
             }
 
