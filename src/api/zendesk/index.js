@@ -1,30 +1,45 @@
 const router = require('express').Router()
 const httpStatus = require('http-status')
-const { getTickets, transformTickets, searchTickets } = require('./helpers')
+const { getTickets, transformTickets, searchTickets, countTickets } = require('./helpers')
 
 router.get('/tickets/list', async (req, res) => {
 	try {
-        const { status } = req.query
-        const response = await getTickets(status)
-        const {count, tickets} = response
-        const transformedTickets = await transformTickets(tickets, count)
+		const { status } = req.query
+		const response = await getTickets(status)
+		const { count, tickets } = response
+		const transformedTickets = await transformTickets(tickets, count)
 
 		res.status(httpStatus.OK).json(transformedTickets)
 	} catch (err) {
-		res.status(httpStatus.BAD_REQUEST).send(err.stack)
+		res.status(httpStatus.BAD_REQUEST).send(err.message)
 	}
 })
 
-router.get('/tickets/search/:status', async (req, res)=> {
-    try {
-        const { status } = req.params
-        const response = await searchTickets(status)
-        const { count, results } = response
-        const transformedTickets = await transformTickets(results, count)
+router.get('/tickets/search/:status', async (req, res) => {
+	try {
+		const { status } = req.params
+		const response = await searchTickets(status)
+		const { count, results } = response
+		const transformedTickets = await transformTickets(results, count)
 
 		res.status(httpStatus.OK).json(transformedTickets)
 	} catch (err) {
-		res.status(httpStatus.BAD_REQUEST).send(err.stack)
+		res.status(httpStatus.BAD_REQUEST).send(err.message)
+	}
+})
+
+router.get('/tickets/count', async (req, res) => {
+	try {
+		const { duration } = req.params
+		const newTickets = await countTickets('')
+		const resolvedTickets = await countTickets('', 'solved')
+
+		res.send({
+			totalNewTickets: newTickets.count,
+			totalSolvedTickets: resolvedTickets.count
+		})
+	} catch (err) {
+		res.status(httpStatus.BAD_REQUEST).send(err.message)
 	}
 })
 
