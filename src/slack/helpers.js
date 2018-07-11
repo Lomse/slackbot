@@ -85,7 +85,7 @@ module.exports = {
         })
     },
     validateText: text => {
-        approvedTexts = ['status:new', 'status:opened', 'status:solved', 'status:pending']
+        approvedTexts = ['new', 'opened', 'solved', 'pending']
 
         if (!text || approvedTexts.includes(text)) {
             return true
