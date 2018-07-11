@@ -7,7 +7,7 @@ router.post('/', async (req, res) => {
     const { text } = req.body
 
     if (!validateText(text)) {
-        return res.status(httpStatus.BAD_REQUEST).send({
+        return res.status(httpStatus.OK).send({
             attachments: {
                 text: 'Use `/list-tickets` with `new`, `opened`, `pending`, `solved`'
             }
