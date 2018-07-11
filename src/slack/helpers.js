@@ -33,6 +33,12 @@ module.exports = {
         return request.get(endpoint)
     },
 
+    getTotalUsers: status => {
+        const BASE_URL = config('BASE_URL')
+        const endpoint = `${BASE_URL}kudobuzz`
+        return request.get(endpoint)
+    },
+
     formatResponse: result => {
         return new Promise(resolve => {
             let obj = {}

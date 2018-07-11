@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const zendeskRouter = require('./src/api/zendesk')
 const slackRouter = require('./src/slack')
 const healthRouter = require('./src/api/health')
+const kudobuzzRouter = require('./src/api/kudobuzz')
 
 const app = express()
 const port = 5000
@@ -14,5 +15,6 @@ app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use('/', healthRouter)
 app.use('/zendesk', zendeskRouter)
 app.use('/slack', slackRouter)
+app.use('/kudobuzz', kudobuzzRouter)
 
 module.exports = app
