@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
 
     if (!validateText(text)) {
         return res.status(httpStatus.OK).send({
-            text: 'Use `/list-tickets` with `new`, `opened`, `pending`, `solved`'
+            text: 'Your are doing it wrong :unamused: Use `/list-tickets` with `new`, `opened`, `pending`, `solved` '
         })
     }
 
