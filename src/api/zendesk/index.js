@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const httpStatus = require('http-status')
-const { getTickets, transformTickets, searchTickets, countTickets } = require('./helpers')
+const { getTickets, transformTickets, searchTickets, countTickets, searchTicketsByTags } = require('./helpers')
 
 router.get('/tickets/list', async (req, res) => {
 	try {
@@ -19,6 +19,19 @@ router.get('/tickets/search/:status', async (req, res) => {
 	try {
 		const { status } = req.params
 		const response = await searchTickets(status)
+		const { count, results } = response
+		const transformedTickets = await transformTickets(results, count)
+
+		res.status(httpStatus.OK).json(transformedTickets)
+	} catch (err) {
+		res.status(httpStatus.BAD_REQUEST).send(err.message)
+	}
+})
+
+router.get('/tickets/search_tags/:tag', async (req, res) => {
+	try {
+		const { tag } = req.params
+		const response = await searchTicketsByTags(tag)
 		const { count, results } = response
 		const transformedTickets = await transformTickets(results, count)
 

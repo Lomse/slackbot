@@ -33,6 +33,12 @@ module.exports = {
         return request.get(endpoint)
     },
 
+    getTicketsByTags: tag => {
+        const BASE_URL = config('BASE_URL')
+        const endpoint = `${BASE_URL}zendesk/tickets/search_tags/${tag}`
+        return request.get(endpoint)
+    },
+
     getTotalUsers: status => {
         const BASE_URL = config('BASE_URL')
         const endpoint = `${BASE_URL}kudobuzz`

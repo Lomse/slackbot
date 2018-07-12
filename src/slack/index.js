@@ -1,4 +1,5 @@
 const router = require('express').Router()
+
 const httpStatus = require('http-status')
 const {
 	getLatestTickets,
@@ -6,9 +7,12 @@ const {
 	formatResponse,
 	validateText,
 	countTickets,
-	getTotalUsers
+	getTotalUsers,
+	getTicketsByTags
 } = require('./helpers')
+
 const config = require('../configs')
+
 router.post('/list/tickets', async (req, res) => {
 	const { text } = req.body
 
@@ -22,6 +26,27 @@ router.post('/list/tickets', async (req, res) => {
 	try {
 		const response =
 			text == 'recent' ? JSON.parse(await getLatestTickets()) : JSON.parse(await getTicketsByStatus(text))
+
+		const formattedResponse = await formatResponse(response)
+		res.status(httpStatus.OK).send(formattedResponse)
+	} catch (err) {
+		res.status(httpStatus.BAD_REQUEST).send(err.stack)
+	}
+})
+
+router.post('/list/by_tags', async (req, res)=> {
+
+	const { text } = req.body
+
+	if(!text){
+		return res.status(httpStatus.OK).send({
+			text:
+				'Your are doing it wrong :unamused: Use `/list-tickets-by-tags` with a tag. For example `/list-tickets-by-tags shopify`'
+		})
+	}
+
+	try {
+		const response = JSON.parse(await getTicketsByTags(text))
 
 		const formattedResponse = await formatResponse(response)
 		res.status(httpStatus.OK).send(formattedResponse)

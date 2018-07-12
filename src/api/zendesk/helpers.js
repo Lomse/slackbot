@@ -65,6 +65,24 @@ module.exports = {
 
 		return request(options)
 	},
+	searchTicketsByTags: tag=> {
+		const ZENDESK_API_BASE_URL = config('ZENDESK_API_BASE_URL')
+		const ZENDESK_ACCESS_TOKEN = config('ZENDESK_ACCESS_TOKEN')
+
+		const options = {
+			url: `${ZENDESK_API_BASE_URL}search.json`,
+			qs: {
+				per_page: 5,
+				query: `tags:${tag} type:ticket`
+			},
+			headers: {
+				Authorization: `Bearer ${ZENDESK_ACCESS_TOKEN}`
+			},
+			json: true
+		}
+
+		return request(options)
+	},
 	countTickets: (duration, status='new') => {
         let query
 		const ZENDESK_API_BASE_URL = config('ZENDESK_API_BASE_URL')
