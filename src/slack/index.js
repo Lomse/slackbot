@@ -19,7 +19,7 @@ router.post('/list/tickets', async (req, res) => {
 	if (!validateText(text)) {
 		return res.status(httpStatus.OK).send({
 			text:
-				'Your are doing it wrong :unamused: Use `/list-tickets` with optional `recent`, new`, `open`, `pending`, `solved`'
+				'Your are doing it wrong :unamused: Use `/list-tickets` with optional `recent`, `new`, `open`, `pending`, `solved`'
 		})
 	}
 
