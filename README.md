@@ -1,5 +1,5 @@
 ## About
-the query appmakes it easy to access information about tickets in zendesk and various information about the kudobuzz app without leavingthe comfort of slack
+the query appmakes it easy to access information about tickets in zendesk without leavingthe comfort of slack
 
 ## Slack Command
 Four commands are available in the query app:
